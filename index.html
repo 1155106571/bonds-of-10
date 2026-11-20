@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>十的分解與合成大冒險</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans TC & Fredoka for playful rounded look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --coral: #FF6B6B;
+      --coral-dark: #E04848;
+      --sky: #38BDF8;
+      --sky-dark: #0284C7;
+      --sunny: #FBBF24;
+      --sunny-dark: #D97706;
+      --mint: #34D399;
+      --mint-dark: #059669;
+      --cream: #FFFDF5;
+    }
+
+    body {
+      font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+      background: linear-gradient(160deg, #FEF9E7 0%, #EBF8FF 50%, #FFF5F5 100%);
+      min-height: 100vh;
+      color: #334155;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    /* Tactile 3D Button Styling */
+    .btn-3d {
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.15s ease;
+      position: relative;
+      cursor: pointer;
+    }
+    .btn-3d:active:not(:disabled) {
+      transform: translateY(4px);
+    }
+    .btn-3d:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .btn-coral {
+      background: linear-gradient(180deg, #FF7E7E 0%, #FF5C5C 100%);
+      box-shadow: 0 5px 0 #D63B3B, 0 8px 15px rgba(255, 92, 92, 0.25);
+      color: white;
+    }
+    .btn-coral:active:not(:disabled) {
+      box-shadow: 0 1px 0 #D63B3B, 0 3px 6px rgba(255, 92, 92, 0.25);
+    }
+
+    .btn-sky {
+      background: linear-gradient(180deg, #52C8FA 0%, #24A9E6 100%);
+      box-shadow: 0 5px 0 #0284C7, 0 8px 15px rgba(36, 169, 230, 0.25);
+      color: white;
+    }
+    .btn-sky:active:not(:disabled) {
+      box-shadow: 0 1px 0 #0284C7, 0 3px 6px rgba(36, 169, 230, 0.25);
+    }
+
+    .btn-sunny {
+      background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 100%);
+      box-shadow: 0 5px 0 #B45309, 0 8px 15px rgba(245, 158, 11, 0.25);
+      color: #78350F;
+    }
+    .btn-sunny:active:not(:disabled) {
+      box-shadow: 0 1px 0 #B45309, 0 3px 6px rgba(245, 158, 11, 0.25);
+    }
+
+    .btn-mint {
+      background: linear-gradient(180deg, #4ADE80 0%, #10B981 100%);
+      box-shadow: 0 5px 0 #047857, 0 8px 15px rgba(16, 185, 129, 0.25);
+      color: white;
+    }
+    .btn-mint:active:not(:disabled) {
+      box-shadow: 0 1px 0 #047857, 0 3px 6px rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-white {
+      background: #FFFFFF;
+      border: 2px solid #E2E8F0;
+      box-shadow: 0 4px 0 #CBD5E1, 0 6px 12px rgba(15, 23, 42, 0.06);
+      color: #334155;
+    }
+    .btn-white:active:not(:disabled) {
+      box-shadow: 0 1px 0 #CBD5E1, 0 2px 4px rgba(15, 23, 42, 0.06);
+    }
+
+    /* Storybook Card Container */
+    .story-card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 3px solid #FFFFFF;
+      box-shadow: 0 12px 30px rgba(100, 116, 139, 0.12), 0 4px 10px rgba(100, 116, 139, 0.06);
+      border-radius: 28px;
+    }
+
+    /* Custom Range Slider */
+    input[type="range"].kids-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 16px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #FF6B6B 0%, #FF6B6B var(--slider-pct, 50%), #38BDF8 var(--slider-pct, 50%), #38BDF8 100%);
+      outline: none;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15);
+    }
+    input[type="range"].kids-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 4px solid #F59E0B;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    input[type="range"].kids-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.12);
+    }
+    input[type="range"].kids-slider::-moz-range-thumb {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 4px solid #F59E0B;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    /* Animations */
+    @keyframes popIn {
+      0% { transform: scale(0.6); opacity: 0; }
+      70% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop {
+      animation: popIn 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes gentleShake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px) rotate(-2deg); }
+      40% { transform: translateX(8px) rotate(2deg); }
+      60% { transform: translateX(-6px) rotate(-1deg); }
+      80% { transform: translateX(6px) rotate(1deg); }
+    }
+    .animate-shake {
+      animation: gentleShake 0.42s ease-in-out;
+    }
+
+    @keyframes floatPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    .animate-float-pulse {
+      animation: floatPulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes sparkleOut {
+      0% { transform: scale(1); opacity: 1; }
+      40% { transform: scale(1.18) rotate(5deg); opacity: 1; }
+      100% { transform: scale(0.2) rotate(-12deg); opacity: 0; }
+    }
+    .animate-match-clear {
+      animation: sparkleOut 0.48s ease-in forwards;
+    }
+
+    /* Countable Object Trays (Replaces Ten-Frame) */
+    .object-tray {
+      min-height: 176px;
+      border-radius: 24px;
+      padding: 14px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      position: relative;
+    }
+    .tray-left {
+      background: linear-gradient(180deg, #FFF5F5 0%, #FFE4E6 100%);
+      border: 3.5px solid #FDA4AF;
+      box-shadow: inset 0 3px 10px rgba(244, 63, 94, 0.1), 0 6px 14px rgba(244, 63, 94, 0.08);
+    }
+    .tray-right {
+      background: linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 100%);
+      border: 3.5px solid #7DD3FC;
+      box-shadow: inset 0 3px 10px rgba(14, 165, 233, 0.1), 0 6px 14px rgba(14, 165, 233, 0.08);
+    }
+    .tray-single {
+      background: linear-gradient(180deg, #FFFBEB 0%, #FEF3C7 100%);
+      border: 3.5px solid #FCD34D;
+      box-shadow: inset 0 3px 10px rgba(217, 119, 6, 0.1);
+      min-height: 120px;
+    }
+
+    /* Interactive Countable Object Button */
+    .object-item {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 3px 6px rgba(15, 23, 42, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s ease;
+    }
+    .object-item:hover {
+      transform: translateY(-4px) scale(1.1);
+      box-shadow: 0 6px 12px rgba(15, 23, 42, 0.14);
+    }
+    .object-item:active {
+      transform: scale(0.92);
+    }
+
+    /* Quiz Hint Object States */
+    .hint-obj {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      line-height: 1;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+    .hint-obj-solid {
+      background: #FFFFFF;
+      border: 2px solid #FDE68A;
+      box-shadow: 0 3px 6px rgba(15, 23, 42, 0.08);
+    }
+    .hint-obj-ghost {
+      background: rgba(255, 255, 255, 0.55);
+      border: 2.5px dashed #38BDF8;
+    }
+    .hint-obj-ghost span {
+      opacity: 0.32;
+      filter: grayscale(35%);
+    }
+    .hint-obj-crossed {
+      background: rgba(255, 255, 255, 0.5);
+      border: 2px dashed #FDA4AF;
+    }
+    .hint-obj-crossed span {
+      opacity: 0.35;
+      filter: grayscale(40%);
+    }
+    .hint-obj-crossed::after {
+      content: '';
+      position: absolute;
+      width: 78%;
+      height: 4px;
+      background: #EF4444;
+      border-radius: 999px;
+      transform: rotate(-38deg);
+      box-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Subtle mini dot grid inside Match Cards */
+    .mini-dots-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px;
+      max-width: 76px;
+      margin-top: 6px;
+    }
+    .mini-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: 0.72;
+    }
+
+    /* Matching Card Styles */
+    .match-card {
+      aspect-ratio: 4 / 3;
+      border-radius: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease, border-color 0.18s ease;
+      position: relative;
+      border: 3px solid rgba(255, 255, 255, 0.85);
+    }
+    .match-card:hover:not(.matched) {
+      transform: translateY(-4px);
+    }
+    .match-card.selected {
+      transform: translateY(-6px) scale(1.05);
+      border-color: #F59E0B;
+      box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.45), 0 12px 20px rgba(245, 158, 11, 0.25) !important;
+    }
+    .match-card.matched {
+      background: rgba(241, 245, 249, 0.65) !important;
+      border: 2px dashed #CBD5E1 !important;
+      box-shadow: none !important;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* Confetti Canvas Overlay */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Decorative background blobs */
+    .bg-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(50px);
+      opacity: 0.45;
+      z-index: -1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="pb-10">
+  <!-- Decorative Soft Background Blobs -->
+  <div class="bg-blob w-72 h-72 bg-yellow-200 -top-16 -left-16"></div>
+  <div class="bg-blob w-80 h-80 bg-sky-200 top-1/3 -right-20"></div>
+  <div class="bg-blob w-72 h-72 bg-rose-200 bottom-0 left-1/4"></div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Floating Feedback Toast (Used instead of alert) -->
+  <div id="toast-container" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 -translate-y-4">
+    <div id="toast-box" class="px-6 py-3 rounded-full font-bold text-lg shadow-xl border-2 border-white flex items-center gap-2 whitespace-nowrap">
+      <span id="toast-icon">🎉</span>
+      <span id="toast-text">太棒了！</span>
+    </div>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b-2 border-amber-100 shadow-sm">
+    <div class="max-w-5xl mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- Title & Brand -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white font-black text-2xl flex items-center justify-center shadow-md border-2 border-white">
+          10
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-black text-slate-800 tracking-tight leading-tight">
+            十的分解與合成大冒險
+          </h1>
+          <p class="text-xs text-slate-500 font-medium hidden sm:block">邊玩邊學 10 的數目組合</p>
+        </div>
+      </div>
+
+      <!-- Mode Switcher & Audio Button -->
+      <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+        <nav class="flex items-center gap-1.5 bg-amber-50/90 p-1.5 rounded-2xl border border-amber-200/70 flex-1 sm:flex-initial justify-around">
+          <button id="nav-explore" onclick="switchMode('explore')" class="nav-tab px-3 sm:px-4 py-2 rounded-xl font-bold text-sm sm:text-base transition-all flex items-center gap-1.5 whitespace-nowrap">
+            <span>🍎</span><span>探索樂園</span>
+          </button>
+          <button id="nav-quiz" onclick="switchMode('quiz')" class="nav-tab px-3 sm:px-4 py-2 rounded-xl font-bold text-sm sm:text-base transition-all flex items-center gap-1.5 whitespace-nowrap">
+            <span>🎯</span><span>湊十挑戰</span>
+          </button>
+          <button id="nav-match" onclick="switchMode('match')" class="nav-tab px-3 sm:px-4 py-2 rounded-xl font-bold text-sm sm:text-base transition-all flex items-center gap-1.5 whitespace-nowrap">
+            <span>🃏</span><span>配對消消樂</span>
+          </button>
+        </nav>
+
+        <!-- Mute / Unmute Button -->
+        <button id="btn-audio" onclick="toggleAudio()" aria-label="開關音效" title="開關音效" class="btn-3d btn-white w-11 h-11 rounded-2xl flex items-center justify-center text-xl shrink-0">
+          🔊
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-5xl mx-auto px-3 sm:px-6 pt-5">
+
+    <!-- =========================================================
+         MODE 1: 探索樂園 (Explore & Decompose with Objects)
+         ========================================================= -->
+    <section id="mode-explore" class="space-y-5">
+      <!-- Intro Banner & Theme Switcher -->
+      <div class="story-card p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-amber-600 flex items-center gap-2">
+            <span>🔍</span> 探索樂園：把 10 個物件分成兩盤！
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 mt-0.5">
+            點擊盤子裡的物件就能移到另一邊，也可以拖動滑桿或按加減號哦！
+          </p>
+        </div>
+        <!-- Cute Object Pair Theme Selector -->
+        <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl">
+          <span class="text-xs font-bold text-slate-500 px-2">物件：</span>
+          <button onclick="setExploreTheme('apple')" id="theme-apple" class="theme-btn px-2.5 py-1.5 rounded-xl text-sm font-bold transition-all">🍎🍏 蘋果</button>
+          <button onclick="setExploreTheme('berry')" id="theme-berry" class="theme-btn px-2.5 py-1.5 rounded-xl text-sm font-bold transition-all">🍓🫐 莓果</button>
+          <button onclick="setExploreTheme('flower')" id="theme-flower" class="theme-btn px-2.5 py-1.5 rounded-xl text-sm font-bold transition-all">🌸🌻 花朵</button>
+          <button onclick="setExploreTheme('candy')" id="theme-candy" class="theme-btn px-2.5 py-1.5 rounded-xl text-sm font-bold transition-all">🍬🍭 糖果</button>
+        </div>
+      </div>
+
+      <!-- Main Sandbox Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+        <!-- Left Column: Two Countable Object Trays & Controls -->
+        <div class="lg:col-span-7 story-card p-5 sm:p-6 flex flex-col justify-between gap-5">
+          <div class="space-y-3">
+            <!-- Total Indicator -->
+            <div class="flex items-center justify-between">
+              <span class="text-xs sm:text-sm font-bold text-slate-500">👆 點一下物件，把它移到另一個盤子</span>
+              <span class="text-sm font-black text-amber-800 bg-amber-100 border border-amber-300 px-3.5 py-1 rounded-full shadow-sm">
+                一共 10 個
+              </span>
+            </div>
+
+            <!-- Two Side-by-Side Trays with "+" Badge -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <!-- Left Tray -->
+              <div class="flex-1 flex flex-col gap-2">
+                <div class="flex items-center justify-between px-1">
+                  <span class="font-black text-[#E04848] text-sm sm:text-base flex items-center gap-1.5">
+                    <span id="explore-left-icon">🍎</span> 左邊盤子
+                  </span>
+                  <span class="px-3 py-0.5 rounded-full bg-[#FF6B6B] text-white font-black text-base shadow-sm">
+                    <span id="explore-red-label">4</span> 個
+                  </span>
+                </div>
+                <div id="explore-tray-left" class="object-tray tray-left">
+                  <!-- Left countable objects generated by JS -->
+                </div>
+              </div>
+
+              <!-- Plus Badge Between Trays -->
+              <div class="flex items-center justify-center shrink-0">
+                <div class="w-11 h-11 rounded-full bg-amber-400 text-amber-950 font-black text-2xl flex items-center justify-center border-4 border-white shadow-md">
+                  +
+                </div>
+              </div>
+
+              <!-- Right Tray -->
+              <div class="flex-1 flex flex-col gap-2">
+                <div class="flex items-center justify-between px-1">
+                  <span class="font-black text-[#0284C7] text-sm sm:text-base flex items-center gap-1.5">
+                    <span id="explore-right-icon">🍏</span> 右邊盤子
+                  </span>
+                  <span class="px-3 py-0.5 rounded-full bg-[#38BDF8] text-white font-black text-base shadow-sm">
+                    <span id="explore-blue-label">6</span> 個
+                  </span>
+                </div>
+                <div id="explore-tray-right" class="object-tray tray-right">
+                  <!-- Right countable objects generated by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slider & +/- Controls -->
+          <div class="bg-slate-50 rounded-2xl p-4 border-2 border-slate-100 space-y-3">
+            <div class="flex items-center gap-3 sm:gap-4">
+              <button onclick="adjustExploreSplit(-1)" id="btn-explore-minus" aria-label="減少左邊數量" class="btn-3d btn-coral w-12 h-12 rounded-2xl text-2xl font-black flex items-center justify-center shrink-0">
+                −
+              </button>
+              <div class="flex-1 px-1">
+                <input type="range" id="explore-slider" min="0" max="10" value="4" class="kids-slider" oninput="setExploreSplit(parseInt(this.value, 10))" />
+                <div class="flex justify-between text-xs font-bold text-slate-400 mt-2 px-1">
+                  <span>0</span><span>2</span><span>5</span><span>8</span><span>10</span>
+                </div>
+              </div>
+              <button onclick="adjustExploreSplit(1)" id="btn-explore-plus" aria-label="增加左邊數量" class="btn-3d btn-sky w-12 h-12 rounded-2xl text-2xl font-black flex items-center justify-center shrink-0">
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Number Bond Diagram & Math Sentences -->
+        <div class="lg:col-span-5 story-card p-5 sm:p-6 flex flex-col items-center justify-between gap-4">
+          <h3 class="font-extrabold text-slate-700 text-lg">數目組合圖</h3>
+
+          <!-- SVG Number Bond Diagram -->
+          <div class="w-full max-w-[260px]">
+            <svg viewBox="0 0 260 205" class="w-full h-auto drop-shadow-sm">
+              <!-- Connecting Lines -->
+              <line x1="130" y1="52" x2="62" y2="148" stroke="#CBD5E1" stroke-width="10" stroke-linecap="round" />
+              <line x1="130" y1="52" x2="198" y2="148" stroke="#CBD5E1" stroke-width="10" stroke-linecap="round" />
+              <!-- Top Circle: 10 -->
+              <circle cx="130" cy="48" r="40" fill="#FBBF24" stroke="#FFFFFF" stroke-width="6" />
+              <text x="130" y="61" text-anchor="middle" fill="#78350F" font-size="36" font-weight="900">10</text>
+              <!-- Left Circle: A (Coral Red) -->
+              <circle cx="62" cy="152" r="38" fill="#FF6B6B" stroke="#FFFFFF" stroke-width="6" />
+              <text id="bond-explore-x" x="62" y="165" text-anchor="middle" fill="#FFFFFF" font-size="36" font-weight="900">4</text>
+              <!-- Right Circle: B (Sky Blue) -->
+              <circle cx="198" cy="152" r="38" fill="#38BDF8" stroke="#FFFFFF" stroke-width="6" />
+              <text id="bond-explore-y" x="198" y="165" text-anchor="middle" fill="#FFFFFF" font-size="36" font-weight="900">6</text>
+            </svg>
+          </div>
+
+          <!-- Synchronized Math Sentences -->
+          <div class="w-full space-y-2.5 text-center">
+            <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl py-2 px-3 text-xl sm:text-2xl font-black text-emerald-700 tracking-wide">
+              <span id="sent-eq-x" class="text-[#E04848]">4</span> + <span id="sent-eq-y" class="text-[#0284C7]">6</span> = 10
+            </div>
+            <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl py-2 px-3 text-xl sm:text-2xl font-black text-slate-700 tracking-wide">
+              10 − <span id="sent-sub-x" class="text-[#E04848]">4</span> = <span id="sent-sub-y" class="text-[#0284C7]">6</span>
+            </div>
+            <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl py-2 px-3 text-base sm:text-lg font-bold text-slate-700">
+              10 可以分成
+              <span id="sent-decomp-x" class="inline-block px-2 py-0.5 rounded-lg bg-[#FF6B6B] text-white mx-0.5">4</span>
+              和
+              <span id="sent-decomp-y" class="inline-block px-2 py-0.5 rounded-lg bg-[#38BDF8] text-white mx-0.5">6</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- All Pairs Checklist (查看所有組合) -->
+      <div class="story-card p-5">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h3 class="text-lg font-black text-slate-800 flex items-center gap-2">
+            <span>📋</span> 查看所有組合
+            <span class="text-sm font-bold text-amber-700 bg-amber-100 px-3 py-0.5 rounded-full">
+              已發現 <span id="discovered-count">1</span> / 11 種
+            </span>
+          </h3>
+          <button onclick="resetDiscoveredPairs()" class="text-xs font-bold text-slate-500 hover:text-rose-500 underline cursor-pointer">
+            重新收集
+          </button>
+        </div>
+        <div id="all-pairs-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
+          <!-- 11 combination badges generated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         MODE 2: 湊十挑戰 (Make 10 Quiz with Object Hints)
+         ========================================================= -->
+    <section id="mode-quiz" class="hidden space-y-5">
+      <!-- Top Status Bar -->
+      <div class="story-card p-4 sm:p-5 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2 sm:gap-4">
+            <span class="bg-amber-100 text-amber-800 font-black px-3.5 py-1.5 rounded-2xl text-sm sm:text-base">
+              第 <span id="quiz-q-num">1</span> / 10 題
+            </span>
+            <span class="bg-emerald-100 text-emerald-800 font-black px-3.5 py-1.5 rounded-2xl text-sm sm:text-base">
+              ⭐ 分數：<span id="quiz-score">0</span>
+            </span>
+            <span class="bg-rose-100 text-rose-700 font-black px-3.5 py-1.5 rounded-2xl text-sm sm:text-base">
+              🔥 連對：<span id="quiz-streak">0</span>
+            </span>
+          </div>
+
+          <!-- Toggle Object Hint -->
+          <button id="btn-quiz-hint" onclick="toggleQuizHint()" class="btn-3d btn-white px-4 py-2 rounded-2xl font-bold text-sm sm:text-base flex items-center gap-1.5">
+            <span>💡</span> <span id="quiz-hint-label">物件提示</span>
+          </button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full h-3.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+          <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 rounded-full transition-all duration-500" style="width: 10%;"></div>
+        </div>
+      </div>
+
+      <!-- Active Quiz Card -->
+      <div id="quiz-active-area" class="story-card p-5 sm:p-7">
+        <!-- Question Badge & Prompt -->
+        <div class="text-center space-y-2 mb-5">
+          <span id="quiz-type-badge" class="inline-block px-4 py-1 rounded-full text-sm font-black bg-sky-100 text-sky-700">
+            合成挑戰
+          </span>
+          <h2 id="quiz-prompt" class="text-2xl sm:text-3xl font-black text-slate-800">
+            <span class="text-[#E04848]">3</span> + <span class="text-amber-500">？</span> = 10
+          </h2>
+        </div>
+
+        <!-- Visual Area: Number Bond + Optional Countable Object Hint -->
+        <div class="flex flex-col lg:flex-row items-center justify-center gap-6 mb-6">
+          <!-- Quiz SVG Number Bond -->
+          <div class="w-full max-w-[230px] shrink-0">
+            <svg viewBox="0 0 260 205" class="w-full h-auto drop-shadow-sm">
+              <line x1="130" y1="52" x2="62" y2="148" stroke="#CBD5E1" stroke-width="10" stroke-linecap="round" />
+              <line x1="130" y1="52" x2="198" y2="148" stroke="#CBD5E1" stroke-width="10" stroke-linecap="round" />
+              <!-- Top Circle: 10 -->
+              <circle cx="130" cy="48" r="40" fill="#FBBF24" stroke="#FFFFFF" stroke-width="6" />
+              <text x="130" y="61" text-anchor="middle" fill="#78350F" font-size="36" font-weight="900">10</text>
+              <!-- Left Circle -->
+              <circle id="quiz-bond-left-bg" cx="62" cy="152" r="38" fill="#FF6B6B" stroke="#FFFFFF" stroke-width="6" />
+              <text id="quiz-bond-left-text" x="62" y="165" text-anchor="middle" fill="#FFFFFF" font-size="36" font-weight="900">3</text>
+              <!-- Right Circle -->
+              <circle id="quiz-bond-right-bg" cx="198" cy="152" r="38" fill="#FEF3C7" stroke="#F59E0B" stroke-width="5" stroke-dasharray="8 6" />
+              <text id="quiz-bond-right-text" x="198" y="165" text-anchor="middle" fill="#D97706" font-size="36" font-weight="900">？</text>
+            </svg>
+          </div>
+
+          <!-- Optional Concrete Object Hint Area -->
+          <div id="quiz-hint-box" class="hidden w-full max-w-xl animate-pop">
+            <div id="quiz-hint-caption" class="text-center text-sm font-bold text-amber-700 mb-2">
+              數一數，右邊還差幾個就能湊成 10 個？
+            </div>
+            <div id="quiz-object-hint-content">
+              <!-- Populated dynamically by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Inline Feedback Banner -->
+        <div id="quiz-feedback" class="h-10 flex items-center justify-center mb-4">
+          <span class="text-slate-400 font-bold text-base">請點選下方的數字作答 👇</span>
+        </div>
+
+        <!-- Number Pad (0 to 10) -->
+        <div id="quiz-numpad" class="grid grid-cols-4 sm:grid-cols-6 gap-2.5 sm:gap-3 max-w-2xl mx-auto">
+          <!-- Buttons 0-10 generated by JS -->
+        </div>
+      </div>
+
+      <!-- Quiz Result Summary Card (Hidden until round completes) -->
+      <div id="quiz-summary-area" class="hidden story-card p-6 sm:p-10 text-center space-y-5 animate-pop">
+        <div class="text-5xl sm:text-6xl" id="quiz-stars-display">⭐⭐⭐</div>
+        <h2 id="quiz-result-title" class="text-3xl sm:text-4xl font-black text-amber-600">太棒了！你是湊十小達人！</h2>
+        <p id="quiz-result-subtitle" class="text-slate-600 text-lg font-bold">完成了全部 10 題挑戰！</p>
+
+        <div class="grid grid-cols-3 gap-3 max-w-md mx-auto pt-2">
+          <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3">
+            <div class="text-xs font-bold text-emerald-600">總分</div>
+            <div id="summary-score" class="text-2xl sm:text-3xl font-black text-emerald-700">100</div>
+          </div>
+          <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3">
+            <div class="text-xs font-bold text-sky-600">一次答對</div>
+            <div id="summary-accuracy" class="text-2xl sm:text-3xl font-black text-sky-700">10/10</div>
+          </div>
+          <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">
+            <div class="text-xs font-bold text-rose-600">最高連對</div>
+            <div id="summary-max-streak" class="text-2xl sm:text-3xl font-black text-rose-700">10</div>
+          </div>
+        </div>
+
+        <div class="pt-3 flex flex-wrap justify-center gap-3">
+          <button onclick="startQuizRound()" class="btn-3d btn-mint px-7 py-3.5 rounded-2xl font-black text-xl">
+            🔄 再挑戰一次
+          </button>
+          <button onclick="switchMode('match')" class="btn-3d btn-sunny px-7 py-3.5 rounded-2xl font-black text-xl">
+            🃏 去玩配對消消樂
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         MODE 3: 配對消消樂 (Pair Matching Game)
+         ========================================================= -->
+    <section id="mode-match" class="hidden space-y-5">
+      <!-- Header & Stats -->
+      <div class="story-card p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-sky-600 flex items-center gap-2">
+            <span>🃏</span> 配對消消樂：找出合起來是 10 的好朋友！
+          </h2>
+          <p class="text-sm text-slate-600 mt-0.5">點選兩張數字卡，如果加起來等於 10 就能消除哦！</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <div class="bg-sky-50 border border-sky-200 px-3.5 py-1.5 rounded-2xl font-black text-sky-700 text-sm sm:text-base">
+            ⏱️ <span id="match-timer">00:00</span>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 px-3.5 py-1.5 rounded-2xl font-black text-amber-700 text-sm sm:text-base">
+            👆 步數：<span id="match-moves">0</span>
+          </div>
+          <div class="bg-rose-50 border border-rose-200 px-3.5 py-1.5 rounded-2xl font-black text-rose-700 text-sm sm:text-base">
+            🧩 剩餘：<span id="match-remaining">6</span> 對
+          </div>
+          <button onclick="startMatchGame()" class="btn-3d btn-sunny px-4 py-2 rounded-2xl font-black text-sm sm:text-base">
+            🔄 再玩一次
+          </button>
+        </div>
+      </div>
+
+      <!-- Equation Celebration Bar -->
+      <div id="match-status-bar" class="h-12 flex items-center justify-center">
+        <div class="bg-white/90 border-2 border-amber-200 px-5 py-1.5 rounded-full font-bold text-slate-600 shadow-sm text-sm sm:text-base">
+          點選第一張數字卡開始配對吧！
+        </div>
+      </div>
+
+      <!-- 12-Card Board -->
+      <div id="match-board" class="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
+        <!-- 12 cards generated dynamically by JS -->
+      </div>
+
+      <!-- Match Victory Card -->
+      <div id="match-victory" class="hidden story-card p-6 sm:p-8 text-center space-y-4 max-w-xl mx-auto animate-pop">
+        <div class="text-5xl">🏆✨🎉</div>
+        <h3 class="text-3xl font-black text-emerald-600">全部配對成功！太厲害了！</h3>
+        <p class="text-slate-600 font-bold text-lg">
+          你用了 <span id="match-final-time" class="text-sky-600">00:25</span> 和 <span id="match-final-moves" class="text-amber-600">7</span> 步完成挑戰！
+        </p>
+        <div class="pt-2">
+          <button onclick="startMatchGame()" class="btn-3d btn-mint px-8 py-3.5 rounded-2xl font-black text-xl">
+            🎮 再玩一局新的
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* =========================================================================
+       1. SOUND FX (Web Audio API - No external audio files needed)
+       ========================================================================= */
+    const SoundFX = {
+      ctx: null,
+      muted: false,
+      ensureContext() {
+        try {
+          if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) {
+              this.ctx = new AudioCtx();
+            }
+          }
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+          }
+        } catch (e) {
+          // Ignore audio context errors in restricted environments
+        }
+      },
+      playTone(freq, duration = 0.12, type = 'sine', volume = 0.16, delay = 0) {
+        if (this.muted) return;
+        this.ensureContext();
+        if (!this.ctx) return;
+        try {
+          const now = this.ctx.currentTime + delay;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, now);
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.exponentialRampToValueAtTime(volume, now + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + duration + 0.02);
+        } catch (e) {
+          // Ignore playback errors
+        }
+      },
+      playPop() {
+        this.playTone(520, 0.08, 'sine', 0.14);
+      },
+      playCorrect() {
+        this.playTone(523.25, 0.12, 'triangle', 0.18, 0);
+        this.playTone(659.25, 0.14, 'triangle', 0.18, 0.09);
+        this.playTone(783.99, 0.22, 'triangle', 0.2, 0.18);
+      },
+      playWrong() {
+        this.playTone(260, 0.14, 'sine', 0.14, 0);
+        this.playTone(210, 0.18, 'sine', 0.14, 0.1);
+      },
+      playFanfare() {
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((n, idx) => {
+          this.playTone(n, idx === 3 ? 0.36 : 0.14, 'triangle', 0.2, idx * 0.11);
+        });
+      }
+    };
+
+    function toggleAudio() {
+      SoundFX.muted = !SoundFX.muted;
+      const btn = document.getElementById('btn-audio');
+      if (btn) {
+        btn.textContent = SoundFX.muted ? '🔇' : '🔊';
+      }
+      if (!SoundFX.muted) {
+        SoundFX.playPop();
+      }
+    }
+
+    /* =========================================================================
+       2. CONFETTI CELEBRATION ENGINE (Canvas)
+       ========================================================================= */
+    const Confetti = {
+      canvas: null,
+      ctx: null,
+      particles: [],
+      animating: false,
+      colors: ['#FF6B6B', '#38BDF8', '#FBBF24', '#34D399', '#A78BFA', '#F472B6'],
+      init() {
+        this.canvas = document.getElementById('confetti-canvas');
+        if (!this.canvas) return;
+        this.ctx = this.canvas.getContext('2d');
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+      },
+      resize() {
+        if (!this.canvas) return;
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+      },
+      burst(count = 40, originYRatio = 0.45) {
+        if (!this.canvas) this.init();
+        if (!this.canvas || !this.ctx) return;
+        const cx = this.canvas.width / 2;
+        const cy = this.canvas.height * originYRatio;
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 3 + Math.random() * 8;
+          this.particles.push({
+            x: cx + (Math.random() - 0.5) * 80,
+            y: cy + (Math.random() - 0.5) * 40,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 3.5,
+            size: 6 + Math.random() * 6,
+            color: this.colors[Math.floor(Math.random() * this.colors.length)],
+            rot: Math.random() * 360,
+            vRot: (Math.random() - 0.5) * 14,
+            life: 1
+          });
+        }
+        if (!this.animating) {
+          this.animating = true;
+          this.loop();
+        }
+      },
+      loop() {
+        if (!this.ctx || !this.canvas) return;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const p = this.particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.22;
+          p.rot += p.vRot;
+          p.life -= 0.014;
+          if (p.life <= 0 || p.y > this.canvas.height + 30) {
+            this.particles.splice(i, 1);
+            continue;
+          }
+          this.ctx.save();
+          this.ctx.globalAlpha = Math.max(0, p.life);
+          this.ctx.translate(p.x, p.y);
+          this.ctx.rotate((p.rot * Math.PI) / 180);
+          this.ctx.fillStyle = p.color;
+          this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.65);
+          this.ctx.restore();
+        }
+        if (this.particles.length > 0) {
+          requestAnimationFrame(() => this.loop());
+        } else {
+          this.animating = false;
+        }
+      }
+    };
+
+    /* =========================================================================
+       3. TOAST MESSAGE HELPER & OBJECT THEME DEFINITIONS
+       ========================================================================= */
+    let toastTimer = null;
+    function showToast(text, icon = '🎉', bgClass = 'bg-emerald-500 text-white') {
+      const container = document.getElementById('toast-container');
+      const box = document.getElementById('toast-box');
+      document.getElementById('toast-icon').textContent = icon;
+      document.getElementById('toast-text').textContent = text;
+
+      box.className = `px-6 py-3 rounded-full font-bold text-lg shadow-xl border-2 border-white flex items-center gap-2 whitespace-nowrap ${bgClass}`;
+      container.classList.remove('opacity-0', '-translate-y-4');
+      container.classList.add('opacity-100', 'translate-y-0');
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        container.classList.add('opacity-0', '-translate-y-4');
+        container.classList.remove('opacity-100', 'translate-y-0');
+      }, 1900);
+    }
+
+    /**
+     * Visually distinct countable object pairs for Left vs Right trays
+     */
+    const OBJECT_THEMES = {
+      apple:  { left: '🍎', right: '🍏', labelLeft: '紅蘋果', labelRight: '青蘋果' },
+      berry:  { left: '🍓', right: '🫐', labelLeft: '草莓',   labelRight: '藍莓' },
+      flower: { left: '🌸', right: '🌻', labelLeft: '櫻花',   labelRight: '向日葵' },
+      candy:  { left: '🍬', right: '🍭', labelLeft: '糖果',   labelRight: '棒棒糖' }
+    };
+
+    /* =========================================================================
+       4. NAVIGATION / MODE SWITCHER
+       ========================================================================= */
+    let currentMode = 'explore';
+
+    function switchMode(mode) {
+      SoundFX.playPop();
+      currentMode = mode;
+
+      // Hide all sections
+      ['explore', 'quiz', 'match'].forEach(m => {
+        document.getElementById(`mode-${m}`).classList.toggle('hidden', m !== mode);
+        const navBtn = document.getElementById(`nav-${m}`);
+        if (m === mode) {
+          navBtn.className = 'nav-tab px-3 sm:px-4 py-2 rounded-xl font-black text-sm sm:text-base transition-all flex items-center gap-1.5 whitespace-nowrap bg-amber-400 text-amber-950 shadow-sm';
+        } else {
+          navBtn.className = 'nav-tab px-3 sm:px-4 py-2 rounded-xl font-bold text-sm sm:text-base transition-all flex items-center gap-1.5 whitespace-nowrap text-slate-600 hover:bg-amber-100/70';
+        }
+      });
+
+      // Initialize mode if needed
+      if (mode === 'quiz' && quizState.questions.length === 0) {
+        startQuizRound();
+      }
+      if (mode === 'match' && matchState.cards.length === 0) {
+        startMatchGame();
+      }
+      // Pause match timer if leaving match mode
+      if (mode !== 'match') {
+        stopMatchTimer();
+      } else if (!matchState.completed && matchState.started) {
+        startMatchTimer();
+      }
+    }
+
+    /* =========================================================================
+       5. MODE 1: 探索樂園 (Explore & Decompose with Objects)
+       ========================================================================= */
+    const exploreState = {
+      theme: 'apple',
+      leftCount: 4, // Right count is always 10 - leftCount
+      discovered: new Set([4]) // tracks discovered leftCount (0..10)
+    };
+
+    function setExploreTheme(theme) {
+      SoundFX.playPop();
+      exploreState.theme = theme;
+      ['apple', 'berry', 'flower', 'candy'].forEach(t => {
+        const btn = document.getElementById(`theme-${t}`);
+        if (t === theme) {
+          btn.className = 'theme-btn px-2.5 py-1.5 rounded-xl text-sm font-black transition-all bg-white text-amber-600 shadow-sm';
+        } else {
+          btn.className = 'theme-btn px-2.5 py-1.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-700';
+        }
+      });
+      renderExplore();
+      // Also refresh Quiz Hint if currently visible
+      if (currentMode === 'quiz' && quizState.questions.length > 0) {
+        const q = quizState.questions[quizState.currentIndex];
+        if (q) renderQuizObjectHint(q, quizState.locked);
+      }
+    }
+
+    function setExploreSplit(leftCount) {
+      const clamped = Math.max(0, Math.min(10, leftCount));
+      if (clamped === exploreState.leftCount) return;
+      exploreState.leftCount = clamped;
+      SoundFX.playPop();
+      registerDiscoveredPair(clamped);
+      renderExplore();
+    }
+
+    function adjustExploreSplit(delta) {
+      setExploreSplit(exploreState.leftCount + delta);
+    }
+
+    function registerDiscoveredPair(leftCount) {
+      const prevSize = exploreState.discovered.size;
+      exploreState.discovered.add(leftCount);
+      if (exploreState.discovered.size === 11 && prevSize < 11) {
+        SoundFX.playFanfare();
+        Confetti.burst(90, 0.3);
+        showToast('太厲害了！你找齊了全部 11 種組合！', '🏆', 'bg-amber-400 text-amber-950');
+      }
+    }
+
+    function resetDiscoveredPairs() {
+      SoundFX.playPop();
+      exploreState.discovered = new Set([exploreState.leftCount]);
+      renderExploreChecklist();
+    }
+
+    function renderExplore() {
+      const leftCount = exploreState.leftCount;
+      const rightCount = 10 - leftCount;
+      const themeObj = OBJECT_THEMES[exploreState.theme];
+
+      // Update labels & icons
+      document.getElementById('explore-left-icon').textContent = themeObj.left;
+      document.getElementById('explore-right-icon').textContent = themeObj.right;
+      document.getElementById('explore-red-label').textContent = leftCount;
+      document.getElementById('explore-blue-label').textContent = rightCount;
+
+      // Update slider
+      const slider = document.getElementById('explore-slider');
+      slider.value = leftCount;
+      slider.style.setProperty('--slider-pct', `${leftCount * 10}%`);
+
+      // Update +/- button disabled states
+      document.getElementById('btn-explore-minus').disabled = leftCount <= 0;
+      document.getElementById('btn-explore-plus').disabled = leftCount >= 10;
+
+      // Render Left Tray Objects (Click any object to move 1 to the right tray)
+      const leftTray = document.getElementById('explore-tray-left');
+      leftTray.innerHTML = '';
+      if (leftCount === 0) {
+        leftTray.innerHTML = `<div class="text-rose-300 font-bold text-sm text-center py-6">空空的～<br/>點右邊的物件移過來！</div>`;
+      } else {
+        for (let i = 0; i < leftCount; i++) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'object-item animate-pop';
+          btn.setAttribute('aria-label', `點一下把一個${themeObj.labelLeft}移到右邊盤子`);
+          btn.title = '點一下移到右邊盤子';
+          btn.textContent = themeObj.left;
+          btn.onclick = () => adjustExploreSplit(-1);
+          leftTray.appendChild(btn);
+        }
+      }
+
+      // Render Right Tray Objects (Click any object to move 1 to the left tray)
+      const rightTray = document.getElementById('explore-tray-right');
+      rightTray.innerHTML = '';
+      if (rightCount === 0) {
+        rightTray.innerHTML = `<div class="text-sky-300 font-bold text-sm text-center py-6">空空的～<br/>點左邊的物件移過來！</div>`;
+      } else {
+        for (let i = 0; i < rightCount; i++) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'object-item animate-pop';
+          btn.setAttribute('aria-label', `點一下把一個${themeObj.labelRight}移到左邊盤子`);
+          btn.title = '點一下移到左邊盤子';
+          btn.textContent = themeObj.right;
+          btn.onclick = () => adjustExploreSplit(1);
+          rightTray.appendChild(btn);
+        }
+      }
+
+      // Update Number Bond & Synchronized Math Sentences
+      document.getElementById('bond-explore-x').textContent = leftCount;
+      document.getElementById('bond-explore-y').textContent = rightCount;
+      document.getElementById('sent-eq-x').textContent = leftCount;
+      document.getElementById('sent-eq-y').textContent = rightCount;
+      document.getElementById('sent-sub-x').textContent = leftCount;
+      document.getElementById('sent-sub-y').textContent = rightCount;
+      document.getElementById('sent-decomp-x').textContent = leftCount;
+      document.getElementById('sent-decomp-y').textContent = rightCount;
+
+      renderExploreChecklist();
+    }
+
+    function renderExploreChecklist() {
+      const currentLeft = exploreState.leftCount;
+      document.getElementById('discovered-count').textContent = exploreState.discovered.size;
+
+      const grid = document.getElementById('all-pairs-grid');
+      grid.innerHTML = '';
+      for (let x = 0; x <= 10; x++) {
+        const y = 10 - x;
+        const isDiscovered = exploreState.discovered.has(x);
+        const isActive = x === currentLeft;
+
+        const pill = document.createElement('button');
+        pill.type = 'button';
+        pill.onclick = () => setExploreSplit(x);
+
+        let cls = 'px-2 py-2 rounded-2xl font-bold text-sm sm:text-base transition-all border-2 flex items-center justify-center gap-1 cursor-pointer ';
+        if (isActive) {
+          cls += 'bg-amber-400 border-amber-500 text-amber-950 scale-105 shadow-md';
+        } else if (isDiscovered) {
+          cls += 'bg-emerald-50 border-emerald-300 text-emerald-800 hover:bg-emerald-100';
+        } else {
+          cls += 'bg-slate-50 border-slate-200 text-slate-400 hover:bg-slate-100';
+        }
+        pill.className = cls;
+        pill.innerHTML = `${isDiscovered ? '⭐' : '○'} <span>${x} + ${y}</span>`;
+        grid.appendChild(pill);
+      }
+    }
+
+    /* =========================================================================
+       6. MODE 2: 湊十挑戰 (Make 10 Quiz with Object Hints)
+       ========================================================================= */
+    const quizState = {
+      questions: [],
+      currentIndex: 0,
+      score: 0,
+      streak: 0,
+      maxStreak: 0,
+      firstTryCorrect: 0,
+      hadWrongOnCurrent: false,
+      hintVisible: false,
+      locked: false
+    };
+
+    const praiseMessages = ['答對了！好厲害！', '太棒了！完全正確！', '你真聰明！', '好棒！繼續加油！'];
+    const retryMessages = ['再試一次哦！', '差一點點，數數看！', '沒關係，再想一想！'];
+
+    function startQuizRound() {
+      // Build 10 balanced questions alternating Composition (合成) and Decomposition (分解)
+      // Shuffle numbers 0..10 and pick 10 so there are no immediate repeats
+      const pool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+
+      quizState.questions = pool.slice(0, 10).map((known, idx) => ({
+        type: idx % 2 === 0 ? 'compose' : 'decompose',
+        known: known,
+        answer: 10 - known,
+        missingSide: Math.random() > 0.35 ? 'right' : 'left'
+      }));
+
+      quizState.currentIndex = 0;
+      quizState.score = 0;
+      quizState.streak = 0;
+      quizState.maxStreak = 0;
+      quizState.firstTryCorrect = 0;
+      quizState.hadWrongOnCurrent = false;
+      quizState.locked = false;
+
+      document.getElementById('quiz-active-area').classList.remove('hidden');
+      document.getElementById('quiz-summary-area').classList.add('hidden');
+
+      buildQuizNumpad();
+      renderQuizQuestion();
+    }
+
+    function buildQuizNumpad() {
+      const pad = document.getElementById('quiz-numpad');
+      pad.innerHTML = '';
+      for (let n = 0; n <= 10; n++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.id = `numpad-btn-${n}`;
+        btn.className = 'btn-3d btn-white py-3.5 sm:py-4 rounded-2xl text-2xl sm:text-3xl font-black text-slate-700 hover:border-amber-300';
+        btn.textContent = n;
+        btn.onclick = () => submitQuizAnswer(n, btn);
+        pad.appendChild(btn);
+      }
+    }
+
+    function toggleQuizHint() {
+      SoundFX.playPop();
+      quizState.hintVisible = !quizState.hintVisible;
+      const box = document.getElementById('quiz-hint-box');
+      const label = document.getElementById('quiz-hint-label');
+      const btn = document.getElementById('btn-quiz-hint');
+
+      if (quizState.hintVisible) {
+        box.classList.remove('hidden');
+        label.textContent = '隱藏物件提示';
+        btn.classList.remove('btn-white');
+        btn.classList.add('btn-sunny');
+      } else {
+        box.classList.add('hidden');
+        label.textContent = '物件提示';
+        btn.classList.remove('btn-sunny');
+        btn.classList.add('btn-white');
+      }
+    }
+
+    /**
+     * Renders concrete countable object hints for the current Quiz question:
+     * - Composition (A + ? = 10): Left tray shows A solid objects, Right tray shows (10 - A) translucent dashed placeholders.
+     * - Decomposition (10 - A = ?): Single tray shows 10 objects with A crossed-out/faded and (10 - A) remaining bright.
+     */
+    function renderQuizObjectHint(q, solved = false) {
+      const container = document.getElementById('quiz-object-hint-content');
+      const caption = document.getElementById('quiz-hint-caption');
+      const themeObj = OBJECT_THEMES[exploreState.theme] || OBJECT_THEMES.apple;
+
+      if (q.type === 'compose') {
+        caption.textContent = solved
+          ? `太棒了！${q.known} 個加上 ${q.answer} 個，一共是 10 個！`
+          : `數一數，右邊盤子還需要幾個才能湊成 10 個？`;
+
+        let leftItems = '';
+        if (q.known === 0) {
+          leftItems = `<span class="text-xs font-bold text-rose-300">0 個</span>`;
+        } else {
+          for (let i = 0; i < q.known; i++) {
+            leftItems += `<div class="hint-obj hint-obj-solid">${themeObj.left}</div>`;
+          }
+        }
+
+        let rightItems = '';
+        if (q.answer === 0) {
+          rightItems = `<span class="text-xs font-bold text-sky-400">已經滿 10 個囉！</span>`;
+        } else {
+          for (let i = 0; i < q.answer; i++) {
+            if (solved) {
+              rightItems += `<div class="hint-obj hint-obj-solid animate-pop">${themeObj.right}</div>`;
+            } else {
+              rightItems += `<div class="hint-obj hint-obj-ghost"><span>${themeObj.right}</span></div>`;
+            }
+          }
+        }
+
+        container.innerHTML = `
+          <div class="flex flex-col sm:flex-row items-center gap-2.5">
+            <div class="object-tray tray-left flex-1 w-full !min-h-[110px] !p-2.5">${leftItems}</div>
+            <div class="w-8 h-8 rounded-full bg-amber-400 text-amber-950 font-black text-lg flex items-center justify-center shrink-0 shadow">+</div>
+            <div class="object-tray tray-right flex-1 w-full !min-h-[110px] !p-2.5">${rightItems}</div>
+          </div>
+        `;
+      } else {
+        // Decomposition / Subtraction hint: 10 total objects, q.known crossed out, q.answer bright
+        caption.textContent = solved
+          ? `10 個拿走 ${q.known} 個，還剩下 ${q.answer} 個！`
+          : `共有 10 個，劃掉拿走 ${q.known} 個，數數看還剩下幾個？`;
+
+        let itemsHtml = '';
+        for (let i = 0; i < 10; i++) {
+          if (i < q.known) {
+            itemsHtml += `<div class="hint-obj hint-obj-crossed"><span>${themeObj.left}</span></div>`;
+          } else {
+            itemsHtml += `<div class="hint-obj hint-obj-solid ${solved ? 'animate-pop ring-2 ring-emerald-400' : ''}">${themeObj.left}</div>`;
+          }
+        }
+
+        container.innerHTML = `
+          <div class="object-tray tray-single w-full !p-3">
+            ${itemsHtml}
+          </div>
+        `;
+      }
+    }
+
+    function renderQuizQuestion() {
+      const q = quizState.questions[quizState.currentIndex];
+      quizState.hadWrongOnCurrent = false;
+      quizState.locked = false;
+
+      // Update Top Stats
+      document.getElementById('quiz-q-num').textContent = quizState.currentIndex + 1;
+      document.getElementById('quiz-score').textContent = quizState.score;
+      document.getElementById('quiz-streak').textContent = quizState.streak;
+      document.getElementById('quiz-progress-bar').style.width = `${((quizState.currentIndex + 1) / 10) * 100}%`;
+
+      // Update Prompt & Badge (Composition: A + ? = 10; Decomposition: 10 - A = ? / 10 可以分成 A 和 ?)
+      const badge = document.getElementById('quiz-type-badge');
+      const promptEl = document.getElementById('quiz-prompt');
+      if (q.type === 'compose') {
+        badge.textContent = '🧩 湊十合成挑戰';
+        badge.className = 'inline-block px-4 py-1 rounded-full text-sm font-black bg-sky-100 text-sky-700';
+        if (q.missingSide === 'right') {
+          promptEl.innerHTML = `<span class="text-[#E04848]">${q.known}</span> + <span class="inline-block px-2.5 py-0.5 rounded-xl bg-amber-100 text-amber-600">？</span> = 10`;
+        } else {
+          promptEl.innerHTML = `<span class="inline-block px-2.5 py-0.5 rounded-xl bg-amber-100 text-amber-600">？</span> + <span class="text-[#E04848]">${q.known}</span> = 10`;
+        }
+      } else {
+        badge.textContent = '✂️ 分解減法挑戰';
+        badge.className = 'inline-block px-4 py-1 rounded-full text-sm font-black bg-rose-100 text-rose-700';
+        if (quizState.currentIndex % 4 === 1) {
+          promptEl.innerHTML = `10 − <span class="text-[#E04848]">${q.known}</span> = <span class="inline-block px-2.5 py-0.5 rounded-xl bg-amber-100 text-amber-600">？</span>`;
+        } else {
+          promptEl.innerHTML = `10 可以分成 <span class="text-[#E04848]">${q.known}</span> 和 <span class="inline-block px-2.5 py-0.5 rounded-xl bg-amber-100 text-amber-600">？</span>`;
+        }
+      }
+
+      // Update Number Bond SVG
+      const leftBg = document.getElementById('quiz-bond-left-bg');
+      const leftText = document.getElementById('quiz-bond-left-text');
+      const rightBg = document.getElementById('quiz-bond-right-bg');
+      const rightText = document.getElementById('quiz-bond-right-text');
+
+      if (q.missingSide === 'right' || q.type === 'decompose') {
+        styleKnownCircle(leftBg, leftText, q.known);
+        styleUnknownCircle(rightBg, rightText);
+      } else {
+        styleUnknownCircle(leftBg, leftText);
+        styleKnownCircle(rightBg, rightText, q.known);
+      }
+
+      // Update Countable Object Hint
+      renderQuizObjectHint(q, false);
+
+      // Reset Feedback & Numpad
+      document.getElementById('quiz-feedback').innerHTML = `<span class="text-slate-400 font-bold text-base">請點選下方的數字作答 👇</span>`;
+      for (let n = 0; n <= 10; n++) {
+        const b = document.getElementById(`numpad-btn-${n}`);
+        if (b) {
+          b.disabled = false;
+          b.classList.remove('animate-shake', 'bg-emerald-500', 'text-white', 'border-emerald-600', 'opacity-40');
+        }
+      }
+    }
+
+    function styleKnownCircle(circle, text, val) {
+      circle.setAttribute('fill', '#FF6B6B');
+      circle.setAttribute('stroke', '#FFFFFF');
+      circle.setAttribute('stroke-width', '6');
+      circle.removeAttribute('stroke-dasharray');
+      text.setAttribute('fill', '#FFFFFF');
+      text.textContent = val;
+    }
+
+    function styleUnknownCircle(circle, text) {
+      circle.setAttribute('fill', '#FEF3C7');
+      circle.setAttribute('stroke', '#F59E0B');
+      circle.setAttribute('stroke-width', '5');
+      circle.setAttribute('stroke-dasharray', '8 6');
+      text.setAttribute('fill', '#D97706');
+      text.textContent = '？';
+    }
+
+    function styleSolvedCircle(circle, text, val) {
+      circle.setAttribute('fill', '#38BDF8');
+      circle.setAttribute('stroke', '#FFFFFF');
+      circle.setAttribute('stroke-width', '6');
+      circle.removeAttribute('stroke-dasharray');
+      text.setAttribute('fill', '#FFFFFF');
+      text.textContent = val;
+    }
+
+    function submitQuizAnswer(selectedNum, btnEl) {
+      if (quizState.locked) return;
+      const q = quizState.questions[quizState.currentIndex];
+
+      if (selectedNum === q.answer) {
+        // Correct Answer!
+        quizState.locked = true;
+        SoundFX.playCorrect();
+        Confetti.burst(32, 0.45);
+
+        if (!quizState.hadWrongOnCurrent) {
+          quizState.firstTryCorrect++;
+          quizState.score += 10;
+          quizState.streak++;
+          if (quizState.streak > quizState.maxStreak) {
+            quizState.maxStreak = quizState.streak;
+          }
+        } else {
+          quizState.score += 5;
+        }
+
+        document.getElementById('quiz-score').textContent = quizState.score;
+        document.getElementById('quiz-streak').textContent = quizState.streak;
+
+        // Fill in the missing circle in SVG
+        if (q.missingSide === 'right' || q.type === 'decompose') {
+          styleSolvedCircle(
+            document.getElementById('quiz-bond-right-bg'),
+            document.getElementById('quiz-bond-right-text'),
+            q.answer
+          );
+        } else {
+          styleSolvedCircle(
+            document.getElementById('quiz-bond-left-bg'),
+            document.getElementById('quiz-bond-left-text'),
+            q.answer
+          );
+        }
+
+        // Reveal solved state in Object Hint
+        renderQuizObjectHint(q, true);
+
+        // Highlight button
+        if (btnEl) {
+          btnEl.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
+        }
+
+        const msg = praiseMessages[Math.floor(Math.random() * praiseMessages.length)];
+        document.getElementById('quiz-feedback').innerHTML = `
+          <span class="px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 font-black text-lg animate-pop">
+            🎉 ${msg} (${q.known} + ${q.answer} = 10)
+          </span>
+        `;
+
+        // Advance to next question or finish
+        setTimeout(() => {
+          quizState.currentIndex++;
+          if (quizState.currentIndex < 10) {
+            renderQuizQuestion();
+          } else {
+            finishQuizRound();
+          }
+        }, 1250);
+      } else {
+        // Wrong Answer -> Gentle Shake & Soft Boop
+        SoundFX.playWrong();
+        quizState.hadWrongOnCurrent = true;
+        quizState.streak = 0;
+        document.getElementById('quiz-streak').textContent = 0;
+
+        if (btnEl) {
+          btnEl.classList.remove('animate-shake');
+          void btnEl.offsetWidth; // restart animation
+          btnEl.classList.add('animate-shake', 'opacity-40');
+          btnEl.disabled = true;
+        }
+
+        const retry = retryMessages[Math.floor(Math.random() * retryMessages.length)];
+        document.getElementById('quiz-feedback').innerHTML = `
+          <span class="px-4 py-1.5 rounded-full bg-rose-100 text-rose-600 font-black text-base animate-pop">
+            💭 ${retry}
+          </span>
+        `;
+      }
+    }
+
+    function finishQuizRound() {
+      SoundFX.playFanfare();
+      Confetti.burst(110, 0.3);
+
+      document.getElementById('quiz-active-area').classList.add('hidden');
+      document.getElementById('quiz-summary-area').classList.remove('hidden');
+
+      let stars = '⭐';
+      let title = '做得好！多練習會更熟練哦！';
+      if (quizState.firstTryCorrect >= 9) {
+        stars = '⭐⭐⭐';
+        title = '太棒了！你是湊十小達人！';
+      } else if (quizState.firstTryCorrect >= 6) {
+        stars = '⭐⭐';
+        title = '好厲害！差一點就滿星啦！';
+      }
+
+      document.getElementById('quiz-stars-display').textContent = stars;
+      document.getElementById('quiz-result-title').textContent = title;
+      document.getElementById('summary-score').textContent = quizState.score;
+      document.getElementById('summary-accuracy').textContent = `${quizState.firstTryCorrect}/10`;
+      document.getElementById('summary-max-streak').textContent = quizState.maxStreak;
+    }
+
+    // Keyboard support for Quiz Mode (0-9 keys)
+    window.addEventListener('keydown', (e) => {
+      if (currentMode !== 'quiz' || quizState.locked) return;
+      if (document.getElementById('quiz-active-area').classList.contains('hidden')) return;
+      if (e.key >= '0' && e.key <= '9') {
+        const num = parseInt(e.key, 10);
+        const btn = document.getElementById(`numpad-btn-${num}`);
+        if (btn && !btn.disabled) {
+          submitQuizAnswer(num, btn);
+        }
+      }
+    });
+
+    /* =========================================================================
+       7. MODE 3: 配對消消樂 (Pair Matching Game)
+       ========================================================================= */
+    const matchCardPalettes = [
+      { bg: 'linear-gradient(135deg, #FF8A8A 0%, #FF5E5E 100%)', shadow: '0 6px 0 #DC2626', text: '#FFFFFF' },
+      { bg: 'linear-gradient(135deg, #60A5FA 0%, #2563EB 100%)', shadow: '0 6px 0 #1D4ED8', text: '#FFFFFF' },
+      { bg: 'linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%)', shadow: '0 6px 0 #B45309', text: '#78350F' },
+      { bg: 'linear-gradient(135deg, #4ADE80 0%, #10B981 100%)', shadow: '0 6px 0 #047857', text: '#FFFFFF' },
+      { bg: 'linear-gradient(135deg, #C084FC 0%, #9333EA 100%)', shadow: '0 6px 0 #7E22CE', text: '#FFFFFF' },
+      { bg: 'linear-gradient(135deg, #F472B6 0%, #EC4899 100%)', shadow: '0 6px 0 #BE185D', text: '#FFFFFF' }
+    ];
+
+    const matchState = {
+      cards: [],
+      selectedIds: [],
+      moves: 0,
+      remainingPairs: 6,
+      seconds: 0,
+      timerId: null,
+      started: false,
+      completed: false,
+      locked: false
+    };
+
+    function formatTime(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function startMatchTimer() {
+      stopMatchTimer();
+      matchState.timerId = setInterval(() => {
+        matchState.seconds++;
+        document.getElementById('match-timer').textContent = formatTime(matchState.seconds);
+      }, 1000);
+    }
+
+    function stopMatchTimer() {
+      if (matchState.timerId) {
+        clearInterval(matchState.timerId);
+        matchState.timerId = null;
+      }
+    }
+
+    function startMatchGame() {
+      SoundFX.playPop();
+      stopMatchTimer();
+
+      // Core 6 pairs summing to 10: (0,10), (1,9), (2,8), (3,7), (4,6), (5,5)
+      const basePairs = [
+        [0, 10], [1, 9], [2, 8], [3, 7], [4, 6], [5, 5]
+      ];
+
+      // Flatten into 12 cards with random joyful color palettes
+      const deck = [];
+      let idCounter = 0;
+      basePairs.forEach((pair) => {
+        pair.forEach((val) => {
+          const palette = matchCardPalettes[Math.floor(Math.random() * matchCardPalettes.length)];
+          deck.push({
+            id: idCounter++,
+            value: val,
+            matched: false,
+            palette
+          });
+        });
+      });
+
+      // Fisher-Yates Shuffle
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+
+      matchState.cards = deck;
+      matchState.selectedIds = [];
+      matchState.moves = 0;
+      matchState.remainingPairs = 6;
+      matchState.seconds = 0;
+      matchState.started = false;
+      matchState.completed = false;
+      matchState.locked = false;
+
+      document.getElementById('match-timer').textContent = '00:00';
+      document.getElementById('match-moves').textContent = '0';
+      document.getElementById('match-remaining').textContent = '6';
+      document.getElementById('match-victory').classList.add('hidden');
+      document.getElementById('match-board').classList.remove('hidden');
+      document.getElementById('match-status-bar').innerHTML = `
+        <div class="bg-white/90 border-2 border-amber-200 px-5 py-1.5 rounded-full font-bold text-slate-600 shadow-sm text-sm sm:text-base">
+          點選兩張加起來是 10 的數字卡吧！
+        </div>
+      `;
+
+      renderMatchBoard();
+    }
+
+    function renderMatchBoard() {
+      const board = document.getElementById('match-board');
+      board.innerHTML = '';
+
+      matchState.cards.forEach((card) => {
+        const el = document.createElement('button');
+        el.type = 'button';
+        el.id = `match-card-${card.id}`;
+
+        if (card.matched) {
+          el.className = 'match-card matched';
+          el.innerHTML = `<span class="text-2xl opacity-50">⭐</span>`;
+        } else {
+          const isSelected = matchState.selectedIds.includes(card.id);
+          el.className = `match-card ${isSelected ? 'selected' : ''}`;
+          el.style.background = card.palette.bg;
+          el.style.boxShadow = card.palette.shadow;
+          el.style.color = card.palette.text;
+
+          // Build subtle countable mini dots matching the card's numeral
+          let dotsHtml = '';
+          if (card.value > 0) {
+            dotsHtml = `<div class="mini-dots-wrap">` + `<span class="mini-dot"></span>`.repeat(card.value) + `</div>`;
+          } else {
+            dotsHtml = `<div class="text-xs font-bold opacity-60 mt-1">空</div>`;
+          }
+
+          el.innerHTML = `
+            <span class="text-4xl sm:text-5xl font-black drop-shadow-sm leading-none">${card.value}</span>
+            ${dotsHtml}
+          `;
+          el.onclick = () => onMatchCardClick(card.id);
+        }
+        board.appendChild(el);
+      });
+    }
+
+    function onMatchCardClick(cardId) {
+      if (matchState.locked || matchState.completed) return;
+
+      const card = matchState.cards.find(c => c.id === cardId);
+      if (!card || card.matched) return;
+
+      // Start timer on very first tap
+      if (!matchState.started) {
+        matchState.started = true;
+        startMatchTimer();
+      }
+
+      // Deselect if tapping the same card again
+      if (matchState.selectedIds.length === 1 && matchState.selectedIds[0] === cardId) {
+        SoundFX.playPop();
+        matchState.selectedIds = [];
+        renderMatchBoard();
+        return;
+      }
+
+      SoundFX.playPop();
+      matchState.selectedIds.push(cardId);
+      renderMatchBoard();
+
+      if (matchState.selectedIds.length === 2) {
+        matchState.locked = true;
+        matchState.moves++;
+        document.getElementById('match-moves').textContent = matchState.moves;
+
+        const c1 = matchState.cards.find(c => c.id === matchState.selectedIds[0]);
+        const c2 = matchState.cards.find(c => c.id === matchState.selectedIds[1]);
+        const el1 = document.getElementById(`match-card-${c1.id}`);
+        const el2 = document.getElementById(`match-card-${c2.id}`);
+
+        if (c1.value + c2.value === 10) {
+          // Match Success!
+          SoundFX.playCorrect();
+          Confetti.burst(28, 0.5);
+
+          document.getElementById('match-status-bar').innerHTML = `
+            <div class="bg-emerald-500 text-white border-2 border-white px-6 py-1.5 rounded-full font-black text-lg shadow-md animate-pop">
+              ✨ 太棒了！ ${c1.value} + ${c2.value} = 10！
+            </div>
+          `;
+
+          if (el1) el1.classList.add('animate-match-clear');
+          if (el2) el2.classList.add('animate-match-clear');
+
+          setTimeout(() => {
+            c1.matched = true;
+            c2.matched = true;
+            matchState.remainingPairs--;
+            matchState.selectedIds = [];
+            matchState.locked = false;
+            document.getElementById('match-remaining').textContent = matchState.remainingPairs;
+            renderMatchBoard();
+
+            if (matchState.remainingPairs === 0) {
+              matchState.completed = true;
+              stopMatchTimer();
+              SoundFX.playFanfare();
+              Confetti.burst(110, 0.35);
+
+              document.getElementById('match-final-time').textContent = formatTime(matchState.seconds);
+              document.getElementById('match-final-moves').textContent = matchState.moves;
+              document.getElementById('match-board').classList.add('hidden');
+              document.getElementById('match-victory').classList.remove('hidden');
+            }
+          }, 480);
+        } else {
+          // Not 10 -> Gentle wobble & hint
+          SoundFX.playWrong();
+          const sum = c1.value + c2.value;
+          document.getElementById('match-status-bar').innerHTML = `
+            <div class="bg-rose-100 text-rose-700 border-2 border-rose-200 px-5 py-1.5 rounded-full font-bold text-base animate-pop">
+              💭 ${c1.value} + ${c2.value} = ${sum}，不是 10 哦，再試一次！
+            </div>
+          `;
+
+          if (el1) el1.classList.add('animate-shake');
+          if (el2) el2.classList.add('animate-shake');
+
+          setTimeout(() => {
+            matchState.selectedIds = [];
+            matchState.locked = false;
+            renderMatchBoard();
+          }, 620);
+        }
+      }
+    }
+
+    /* =========================================================================
+       8. INITIALIZE ON PAGE LOAD
+       ========================================================================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      setExploreTheme('apple');
+      switchMode('explore');
+    });
+  </script>
+</body>
+</html>
